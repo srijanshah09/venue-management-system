@@ -1,3 +1,27 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
+
+ROLE_CHOICES = (
+    ('partner','partner'),
+    ('customer', 'customer'),
+    ('admin','admin'),
+)
+
+class User(AbstractUser):
+    name = models.CharField(max_length=150, null=True, blank=True)
+    email = models.EmailField(_('email address'),blank=True, null=True, unique=True)
+    mobile = models.CharField(max_length=15,unique=True)
+    profile_image = models.ImageField(upload_to="profile/", null=True, blank=True)
+    role = models.CharField(choices=ROLE_CHOICES, max_length=50, default='CUSTOMER')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = 'User'
+        verbose_name_plural = verbose_name
+
+    def __str__(self) -> str:
+        return f"{self.username}"

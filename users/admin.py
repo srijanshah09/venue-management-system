@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User
+from .models import User, Otp
 from django.utils.translation import gettext, gettext_lazy as _
 from django.contrib.auth.admin import UserAdmin
 
@@ -13,6 +13,7 @@ class UserCustomAdmin(UserAdmin):
             'mobile',
             'email',
             'profile_image',
+            'role',
         )}),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
@@ -23,3 +24,4 @@ class UserCustomAdmin(UserAdmin):
     search_fields = ('username', 'name', 'id', 'email')
 
 admin.site.register(User, UserCustomAdmin)
+admin.site.register(Otp)

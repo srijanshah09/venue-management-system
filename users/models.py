@@ -10,12 +10,19 @@ ROLE_CHOICES = (
     ('admin','admin'),
 )
 
+class Base(models.Model):
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
 class User(AbstractUser):
     name = models.CharField(max_length=150, null=True, blank=True)
     email = models.EmailField(_('email address'),blank=True, null=True, unique=True)
     mobile = models.CharField(max_length=15,unique=True)
     profile_image = models.ImageField(upload_to="profile/", null=True, blank=True)
-    role = models.CharField(choices=ROLE_CHOICES, max_length=50, default='CUSTOMER')
+    role = models.CharField(choices=ROLE_CHOICES, max_length=50, default='customer')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -25,3 +32,16 @@ class User(AbstractUser):
 
     def __str__(self) -> str:
         return f"{self.username}"
+    
+
+
+class Otp(Base):
+    email = models.EmailField(blank=True, null=True,)
+    mobile = models.CharField(max_length=15, null=True, blank=True)
+    otp = models.PositiveIntegerField(default=1111)
+
+    class Meta:
+        ordering = ['-updated_at']
+
+    def __str__(self) -> str:
+        return f"{self.mobile}"

@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
 from .utils import validate_data, register_user
+from .models import User
 
 # Create your views here.
 class UserAuthView(viewsets.ViewSet):
@@ -36,3 +37,15 @@ class UserAuthView(viewsets.ViewSet):
                 data = {'status': False, 'message': str(e),},
                 status = status.HTTP_400_BAD_REQUEST,
             )
+
+    def send_otp(self, request):
+        """SEND OTP"""
+        mobile = request.data.get('mobile',None)
+        if mobile:
+            mobile = mobile.strip()
+            if User.objects.filter(mobile=mobile).exists():
+                pass
+
+    def verify_otp(self, request):
+        """LOGIN with OTP"""
+        pass

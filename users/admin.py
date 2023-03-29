@@ -13,6 +13,7 @@ class UserCustomAdmin(UserAdmin):
             'mobile',
             'email',
             'profile_image',
+            'role',
         )}),
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),

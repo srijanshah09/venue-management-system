@@ -105,6 +105,7 @@ def register_user(data):
         user.save()
         user.set_password(password)
         user.save()
+        return user
 
     except Exception as e:
         return None

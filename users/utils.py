@@ -1,6 +1,8 @@
 import re
+from rest_framework_simplejwt.tokens import RefreshToken
+import random as r
 
-from .models import User
+from .models import User, Otp
 
 def validate_password(password):
     if len(password) <6:
@@ -109,3 +111,31 @@ def register_user(data):
 
     except Exception as e:
         return None
+    
+def get_tokens_for_user(user):
+    refresh = RefreshToken.for_user(user)
+
+    return {
+        'refresh': str(refresh),
+        'access': str(refresh.access_token),
+    }
+
+def generate_otp(mobile):
+    otp=""
+    for i in range(4):
+        otp+=str(r.randint(1,9))
+    otp = int(otp)
+    if Otp.objects.filter(mobile=mobile).exists():
+        instance = Otp.objects.filter(mobile=mobile).last()
+        instance.otp = otp
+        instance.save()
+    else:
+        instance = Otp(
+            mobile = mobile,
+            otp = otp
+        )
+        instance.save()
+    return otp
+
+def send_sms(mobile):
+    otp = generate_otp(mobile)

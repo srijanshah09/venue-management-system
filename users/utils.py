@@ -1,6 +1,9 @@
+from django.core.mail import send_mail
+from django.conf import settings
 import re
 from rest_framework_simplejwt.tokens import RefreshToken
 import random as r
+
 
 from .models import User, Otp
 
@@ -139,3 +142,15 @@ def generate_otp(mobile):
 
 def send_sms(mobile):
     otp = generate_otp(mobile)
+    send_email(mobile,otp)
+
+def send_email(mobile, otp):
+    user = User.objects.get(mobile=mobile)
+    if user.email and user.email.strip() != '':
+        send_mail(
+            subject =  "OTP TO LOGIN",
+            message = f"Hi {user.username}, Please enter the otp {otp} to login ",
+            from_email = settings.EMAIL_HOST_USER,
+            recipient_list = [user.email],
+            fail_silently = False,
+        )

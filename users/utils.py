@@ -142,9 +142,9 @@ def generate_otp(mobile):
 
 def send_sms(mobile):
     otp = generate_otp(mobile)
-    send_email(mobile,otp)
+    send_otp_email(mobile,otp)
 
-def send_email(mobile, otp):
+def send_otp_email(mobile, otp):
     user = User.objects.get(mobile=mobile)
     if user.email and user.email.strip() != '':
         send_mail(
@@ -154,3 +154,12 @@ def send_email(mobile, otp):
             recipient_list = [user.email],
             fail_silently = False,
         )
+
+def send_reset_password_email(email, link):
+    send_mail(
+        subject= "LINK TO RESET PASSWORD",
+        message = f"Hi,\nPlease use the following link to regenerate the password:\n{link}",
+        from_email= settings.EMAIL_HOST_USER,
+        recipient_list= [email],
+        fail_silently= False,
+    )

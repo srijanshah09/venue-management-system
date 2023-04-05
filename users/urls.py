@@ -4,9 +4,9 @@ from users.views import (
 )
 
 urlpatterns = [
-    path('signup/', UserAuthView.as_view({'post':'register'})),
-    path('send-otp/',UserAuthView.as_view({'post':'send_otp'}),),
-    path('verify-otp/',UserAuthView.as_view({'post':'verify_otp'})),
-    path('request-reset-email/', UserAuthView.as_view({'post':'send_password_reset_email'}), name='request-password-reset'),
-    path('password-rest/<uidb64>/<token>/', UserAuthView.as_view({'post':'reset_password'}), name='password-reset-confirm')
+    path('signup/', UserAuthView.register, name='register'),
+    path('send-otp/',UserAuthView.send_otp, name='send-otp'),
+    path('verify-otp/',UserAuthView.verify_otp, name='verify-otp'),
+    path('request-reset-email/', UserAuthView.send_password_reset_email, name='request-password-reset'),
+    path('password-rest/<uidb64>/<token>/', UserAuthView.reset_password, name='password-reset-confirm')
 ]

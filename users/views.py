@@ -1,8 +1,9 @@
+from django.shortcuts import render
+from rest_framework import viewsets, generics 
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
-from django.utils.encoding import smart_str, smart_bytes, DjangoUnicodeDecodeError
+from django.utils.encoding import smart_str, force_str, smart_bytes, DjangoUnicodeDecodeError
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.urls import reverse
 
@@ -17,11 +18,11 @@ from .utils import (
 )
 
 # Create your views here.
-class UserAuthView:
+class UserAuthView(viewsets.ViewSet):
+    authentication_classes = ()
+    permission_classes = ()
 
-    @staticmethod
-    @api_view(['POST'])
-    def register(request):
+    def register(self,request):
         try:
             data = request.data
             print(data)
@@ -49,9 +50,7 @@ class UserAuthView:
                 status = status.HTTP_400_BAD_REQUEST,
             )
 
-    @staticmethod
-    @api_view(['POST'])
-    def send_otp(request):
+    def send_otp(self, request):
         """SEND OTP"""
         try:
             mobile = request.data.get('mobile',None)
@@ -85,9 +84,7 @@ class UserAuthView:
                 status = status.HTTP_400_BAD_REQUEST,
             )
 
-    @staticmethod
-    @api_view(['POST'])
-    def verify_otp(request):
+    def verify_otp(self, request):
         """LOGIN with OTP"""
         try:
             mobile = request.data.get('mobile')
@@ -125,9 +122,7 @@ class UserAuthView:
                 status = status.HTTP_400_BAD_REQUEST,
             )
 
-    @staticmethod
-    @api_view(['POST'])
-    def send_password_reset_email(request):
+    def send_password_reset_email(self, request):
         email = request.data.get('email','')
         if User.objects.filter(email=email).exists():
             user = User.objects.filter(email=email).first()
@@ -139,9 +134,7 @@ class UserAuthView:
             send_reset_password_email(email=email, link=abs_url)
         return Response(data = {'status': True, 'message':'Password reset link sent successfully.'}, status = status.HTTP_200_OK)
 
-    @staticmethod
-    @api_view(['POST'])
-    def reset_password(request, uidb64, token):
+    def reset_password(self, request, uidb64, token):
         try:
             print(request.data, uidb64, token)
             password = request.data.get('password', None)

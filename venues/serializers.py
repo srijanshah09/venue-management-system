@@ -18,10 +18,11 @@ class CitySerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'state', 'is_active']
         # depth = 1
 
-    # def create(self, validated_data):
-    #     print(validated_data)
-    #     is_active = True if validated_data['is_active'] == 'true' else False
-    #     return City.objects.create(name = validated_data['name'], is_active = is_active, state=state)
+    def create(self, validated_data):
+        print(validated_data)
+        state = State.objects.get(pk=validated_data.get('state'))
+        is_active = True if validated_data['is_active'] else False
+        return City.objects.create(name = validated_data['name'], is_active = is_active, state=state)
 
     def update(self, instance, validated_data):
         instance.name = validated_data.get('name',instance.name)

@@ -30,6 +30,12 @@ class City(models.Model):
     state = models.ForeignKey('State', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+    
 class Address(models.Model):
     first_line = models.TextField(blank=True, default="")
     city = models.ForeignKey('City', on_delete=models.CASCADE)

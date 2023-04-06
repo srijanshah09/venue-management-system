@@ -27,10 +27,8 @@ class CityViewSet(viewsets.ViewSet):
     
     def create(self, request, format=None):
         serializer = CitySerializer(data=request.data)
-        state_id =  request.data['state']
-        state_instance = State.objects.get(id=state_id)
         if serializer.is_valid():
-            serializer.save(state=state_instance)
+            serializer.create(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED,) 
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
@@ -49,16 +47,10 @@ class CityViewSet(viewsets.ViewSet):
         queryset = self.get_queryset()
         city = get_object_or_404(queryset, pk=pk)
         serializer = CitySerializer(data=request.data)
-        try:
-            state_id =  request.data['state']
-            state_instance = State.objects.get(id=state_id)
-            if serializer.is_valid():
-                serializer.update(city, serializer.data)
-                return Response(serializer.data)
-            return Response(status= status.HTTP_400_BAD_REQUEST)
-        except Exception as e:
-            return Response(data = {'error': str(e) },status= status.HTTP_400_BAD_REQUEST)
-
+        if serializer.is_valid():
+            serializer.update(city, serializer.data)
+            return Response(serializer.data)
+        return Response(status= status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request, pk):
         """Default nature is sufficient"""

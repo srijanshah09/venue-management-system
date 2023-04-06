@@ -22,6 +22,9 @@ class State(models.Model):
     name = models.CharField(max_length=100)
     is_active = models.BooleanField(default=True)
 
+    def __str__(self):
+        return self.name
+
 class City(models.Model):
     name = models.CharField(max_length=100)
     state = models.ForeignKey('State', on_delete=models.CASCADE)
@@ -42,6 +45,7 @@ class BankAccount(models.Model):
     nick_name= models.CharField(max_length=200)
 
 class Venue(models.Model):
+    owner = models.ForeignKey('users.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     map_link = models.URLField(max_length=500, null=True, blank=True)
     address = models.ForeignKey('Address', null=True, blank=True, on_delete=models.SET_NULL)

@@ -1,7 +1,14 @@
 from django.urls import path
+from rest_framework import routers
 
-from .views import *
+from .views import (
+    StateViewSet,
+    CityViewSet,
+)
 
-urlpatterns = [
-    path(),
-]
+router = routers.DefaultRouter()
+router.register(r'state', StateViewSet, basename='state')
+router.register(r'city', CityViewSet, basename='city')
+
+
+urlpatterns = router.urls

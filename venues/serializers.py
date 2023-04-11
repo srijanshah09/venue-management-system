@@ -3,6 +3,10 @@ from rest_framework import serializers
 from .models import (
     State,
     City,
+    Address,
+    BankAccount,
+    Venue,
+    Availability,
 )
 
 class StateSerializer(serializers.ModelSerializer):
@@ -32,3 +36,45 @@ class CitySerializer(serializers.ModelSerializer):
         else :
             instance.state = instance.state
         instance.save()
+
+
+class AddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Address
+        fields = ['id','first_line', 'city', 'pincode']
+
+
+class BankAccountSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BankAccount
+        fields = ['id', 'account_holder_name', 'bank_name', 'ifsc_code', 'account_number', 'account_type', 'nick_name']
+
+    def create(self, validated_data):
+        return BankAccount(**validated_data)
+
+class AvailabilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Availability
+        fields = ['day','is_open']
+
+class VenueSerializer(serializers.ModelSerializer):
+    address = AddressSerializer()
+    bank_account = BankAccountSerializer()
+    days = AvailabilitySerializer(many=True)
+
+    class Meta:
+        model = Venue
+        fields = ['id','title','map_link', 'address', 'contact', 'bank_account', 'is_active', 'days']
+
+    def create(self, validated_data):
+        address_instance = validated_data.pop('address')
+        account_instance = validated_data.pop('bank_account')
+        days_data = validated_data.pop('days') or None
+        address = Address.objects.create(**address_instance)
+        account = BankAccount.objects.create(user=self.context['request'].user, **account_instance)
+        instance = Venue.objects.create(owner=self.context['request'].user, address = address, bank_account=account, **validated_data)
+        if days_data:
+            for a in days_data:
+                Availability.objects.create(venue = instance, **a)
+        return instance        
+    

@@ -1,11 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 from django.utils.translation import gettext_lazy as _
 
 # Create your models here.
 
-class CustomUser(models.Model):
+class CustomUser(AbstractUser):
     """Model definition for CustomUser."""
-
     # TODO: Define fields here
     name = models.CharField(max_length=150, null=True, blank=True)
     email = models.EmailField(_('email address'),blank=True, null=True, unique=True)
@@ -16,7 +16,7 @@ class CustomUser(models.Model):
 
     class Meta:
         """Meta definition for CustomUser."""
-
+        abstract = True
         verbose_name = 'CustomUser'
         verbose_name_plural = 'CustomUsers'
 

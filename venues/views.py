@@ -69,3 +69,13 @@ class VenueViewSet(viewsets.ModelViewSet):
         venue = get_object_or_404(queryset, pk=pk)
         serializer = VenueSerializer(venue)
         return Response(serializer.data)
+    
+    def update(self, request, pk, format=None):
+        queryset = self.get_queryset()
+        venue = get_object_or_404(queryset, pk=pk)
+        serializer = VenueSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            serializer.update(venue, serializer.data)
+            return Response(serializer.data)
+        return Response(status= status.HTTP_400_BAD_REQUEST)

@@ -55,7 +55,7 @@ class BankAccountSerializer(serializers.ModelSerializer):
 class AvailabilitySerializer(serializers.ModelSerializer):
     class Meta:
         model = Availability
-        fields = ['day','is_open']
+        fields = ['id', 'day', 'is_open']
 
 class VenueSerializer(serializers.ModelSerializer):
     address = AddressSerializer()
@@ -78,3 +78,19 @@ class VenueSerializer(serializers.ModelSerializer):
                 Availability.objects.create(venue = instance, **a)
         return instance        
     
+
+    # def update(self, instance, validated_data):
+    #     address_instance = validated_data.pop('address')
+    #     account_instance = validated_data.pop('bank_account')
+    #     days_data = validated_data.pop('days') or None
+    #     address = Address.objects.get(pk=address_instance["id"])
+    #     address.update(**address_instance)
+    #     account = BankAccount.objects.get(id=account_instance["id"])
+    #     account.update(**account_instance)
+    #     instance = Venue.objects.get(  id = validated_data["id"])
+    #     instance.update(address = address, bank_account=account, **validated_data)
+    #     if days_data:
+    #         for a in days_data:
+    #             day = Availability.objects.get(id=a["id"])
+    #             day.update(venue = instance, **a)
+    #     return instance 

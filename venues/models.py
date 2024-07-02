@@ -30,9 +30,15 @@ class City(models.Model):
     state = models.ForeignKey('State', on_delete=models.CASCADE)
     is_active = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ['name']
+
+    def __str__(self):
+        return self.name
+    
 class Address(models.Model):
     first_line = models.TextField(blank=True, default="")
-    city = models.ForeignKey('City', on_delete=models.CASCADE)
+    city = models.ForeignKey('City', related_name='city', on_delete=models.CASCADE)
     pincode = models.CharField(max_length=10, default="", blank=True)
 
 class BankAccount(models.Model):
@@ -54,9 +60,12 @@ class Venue(models.Model):
     is_active = models.BooleanField(default=True)
 
 class Availability(models.Model):
-    venue = models.ForeignKey('Venue', on_delete=models.CASCADE)
+    venue = models.ForeignKey('Venue', on_delete=models.CASCADE, related_name='days')
     day = models.CharField(choices=DAY_CHOICES, max_length=20, default="sunday")
     is_open = models.BooleanField(default=True)
 
     class Meta:
         unique_together = ['venue', 'day']
+
+    def __str__(self):
+        return self.day

@@ -1,6 +1,6 @@
 from django.forms import ValidationError
 from django.test import TestCase
-from .models import User
+from users.models import User
 # Create your tests here.
 
 
@@ -92,3 +92,4 @@ class UserModelTestCase(TestCase):
         with self.assertRaises(ValidationError):
             user = User(username='testuser', name='Test User', email='test@example.com', mobile='1234567890')
             user.full_clean()
+

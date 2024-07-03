@@ -1,9 +1,11 @@
 from django.urls import path, include
 from users.views import (
     UserAuthView, 
+    index,
 )
 
 urlpatterns = [
+    path('', index, name="user_index"),
     path('signup/', UserAuthView.as_view({'post':'register'})),
     path('send-otp/',UserAuthView.as_view({'post':'send_otp'}),),
     path('verify-otp/',UserAuthView.as_view({'post':'verify_otp'})),

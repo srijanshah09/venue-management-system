@@ -151,3 +151,11 @@ class UserAuthView(viewsets.ViewSet):
                 return Response(data={"message":"Invalid Password Provided"},status= status.HTTP_400_BAD_REQUEST )
         except DjangoUnicodeDecodeError as e:
             return Response(data={"message":"Invalid token"},status= status.HTTP_401_UNAUTHORIZED)
+
+
+def index(request):
+    users = User.objects.all()
+    context = {
+        "users": users,
+    }
+    return render(request, "users/index.html", context)

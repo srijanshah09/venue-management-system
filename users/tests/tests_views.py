@@ -22,3 +22,8 @@ class HomePageTestCase(TestCase):
         response = self.client.get("/")
         self.assertTemplateUsed(response, "users/index.html")
         self.assertEqual(response.status_code, HTTPStatus.OK)
+    
+    def test_homepage_returns_list_users(self):
+        response = self.client.get("/")
+        self.assertContains(response, "testuser1")
+        self.assertContains(response, "testuser2")

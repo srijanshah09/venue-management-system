@@ -7,22 +7,30 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('venues', '0001_initial'),
+        ("venues", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='city',
-            options={'ordering': ['name']},
+            name="city",
+            options={"ordering": ["name"]},
         ),
         migrations.AlterField(
-            model_name='address',
-            name='city',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='city', to='venues.city'),
+            model_name="address",
+            name="city",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="city",
+                to="venues.city",
+            ),
         ),
         migrations.AlterField(
-            model_name='availability',
-            name='venue',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='venue', to='venues.venue'),
+            model_name="availability",
+            name="venue",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="venue",
+                to="venues.venue",
+            ),
         ),
     ]

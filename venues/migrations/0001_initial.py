@@ -15,71 +15,184 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Address',
+            name="Address",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_line', models.TextField(blank=True, default='')),
-                ('pincode', models.CharField(blank=True, default='', max_length=10)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_line", models.TextField(blank=True, default="")),
+                ("pincode", models.CharField(blank=True, default="", max_length=10)),
             ],
         ),
         migrations.CreateModel(
-            name='BankAccount',
+            name="BankAccount",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('account_holder_name', models.CharField(max_length=100)),
-                ('bank_name', models.CharField(max_length=100)),
-                ('ifsc_code', models.CharField(max_length=20)),
-                ('account_number', models.CharField(max_length=50)),
-                ('account_type', models.CharField(choices=[('saving', 'Saving'), ('current', 'Current Account'), ('credit', 'Cash Credit'), ('loan', 'Loan Account')], default='saving', max_length=100)),
-                ('nick_name', models.CharField(max_length=200)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("account_holder_name", models.CharField(max_length=100)),
+                ("bank_name", models.CharField(max_length=100)),
+                ("ifsc_code", models.CharField(max_length=20)),
+                ("account_number", models.CharField(max_length=50)),
+                (
+                    "account_type",
+                    models.CharField(
+                        choices=[
+                            ("saving", "Saving"),
+                            ("current", "Current Account"),
+                            ("credit", "Cash Credit"),
+                            ("loan", "Loan Account"),
+                        ],
+                        default="saving",
+                        max_length=100,
+                    ),
+                ),
+                ("nick_name", models.CharField(max_length=200)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='State',
+            name="State",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('is_active', models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("is_active", models.BooleanField(default=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Venue',
+            name="Venue",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
-                ('map_link', models.URLField(blank=True, max_length=500, null=True)),
-                ('contact', models.CharField(blank=True, max_length=20, null=True)),
-                ('is_active', models.BooleanField(default=True)),
-                ('address', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='venues.address')),
-                ('bank_account', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='venues.bankaccount')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                ("map_link", models.URLField(blank=True, max_length=500, null=True)),
+                ("contact", models.CharField(blank=True, max_length=20, null=True)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "address",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="venues.address",
+                    ),
+                ),
+                (
+                    "bank_account",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.DO_NOTHING,
+                        to="venues.bankaccount",
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='City',
+            name="City",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('is_active', models.BooleanField(default=True)),
-                ('state', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='venues.state')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "state",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="venues.state"
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='address',
-            name='city',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='venues.city'),
+            model_name="address",
+            name="city",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="venues.city"
+            ),
         ),
         migrations.CreateModel(
-            name='Availability',
+            name="Availability",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('day', models.CharField(choices=[('sunday', 'sunday'), ('monday', 'monday'), ('tuesday', 'tuesday'), ('wednesday', 'wednesday'), ('thursday', 'thursday'), ('friday', 'friday'), ('saturday', 'saturday')], default='sunday', max_length=20)),
-                ('is_open', models.BooleanField(default=True)),
-                ('venue', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='venues.venue')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "day",
+                    models.CharField(
+                        choices=[
+                            ("sunday", "sunday"),
+                            ("monday", "monday"),
+                            ("tuesday", "tuesday"),
+                            ("wednesday", "wednesday"),
+                            ("thursday", "thursday"),
+                            ("friday", "friday"),
+                            ("saturday", "saturday"),
+                        ],
+                        default="sunday",
+                        max_length=20,
+                    ),
+                ),
+                ("is_open", models.BooleanField(default=True)),
+                (
+                    "venue",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="venues.venue"
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('venue', 'day')},
+                "unique_together": {("venue", "day")},
             },
         ),
     ]

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, generics
 from rest_framework import status
 from rest_framework.response import Response
@@ -213,3 +213,11 @@ def index(request):
         "users": users,
     }
     return render(request, "users/index.html", context)
+
+
+def user_details(request, id):
+    user = get_object_or_404(User, id=id)
+    context = {
+        "user": user,
+    }
+    return render(request, "users/user-details.html", context)

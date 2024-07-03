@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block pagetitle %}
+    {{user.username}}
+{% endblock%}
+{% block content %}
+    <h1>{{user.username}}</h1>
+    <ul class="list-unstyled">
+        <li><b>Full Name : </b>{{user.name}}</li>
+        <li><b>Phone : </b>{{user.mobile}}</li>
+        <li><b>Email : </b>{{user.email}}</li>
+    </ul>
+{% endblock %}

@@ -99,11 +99,10 @@ class LoginTest(TestCase):
         response = self.client.get(reverse("login_page"))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "users/login.html")
-    
 
     def test_login_page_has_login_form(self):
         response = self.client.get(reverse("login_page"))
-        form = response.context.get('form')
+        form = response.context.get("form")
 
         self.assertIsInstance(form, AuthenticationForm)
 

@@ -35,3 +35,14 @@ class DetailsPageTest(TestCase):
         self.assertContains(response, self.user.name)
         self.assertContains(response, self.user.mobile)
         self.assertContains(response, self.user.email)
+
+
+class UserCreationPageTest(TestCase):
+    def setUp(self) -> None:
+        return super().setUp()
+    
+    def test_creation_page_exists(self):
+        response = self.client.get(reverse("signup_page"))
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+        self.assertTemplateUsed('users/signup.html')
+        self.assertContains(response, "Create your Account")

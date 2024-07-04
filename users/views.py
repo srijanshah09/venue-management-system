@@ -221,3 +221,6 @@ def user_details(request, id):
         "user": user,
     }
     return render(request, "users/user-details.html", context)
+
+def user_signup(request):
+    return render(request, "users/signup.html")

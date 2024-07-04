@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework import viewsets, generics
 from rest_framework import status
 from rest_framework.response import Response
@@ -23,6 +23,7 @@ from .utils import (
 )
 
 from .forms import *
+
 
 # Create your views here.
 class UserAuthView(viewsets.ViewSet):
@@ -223,9 +224,24 @@ def user_details(request, id):
     }
     return render(request, "users/user-details.html", context)
 
+
 def user_signup(request):
     form = UserRegistrationForm()
     context = {
         "form": form,
     }
+    if request.method == "POST":
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse("login_page"))
+        else:
+            context = {
+                "form": form,
+            }
+
     return render(request, "users/signup.html", context)
+
+
+def user_login(request):
+    return render(request, "users/login.html")

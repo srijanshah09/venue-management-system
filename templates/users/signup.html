@@ -6,6 +6,7 @@
     </h1>
     <form action="" method="POST">
         {% csrf_token %}
+        {{form.errors.as_p}}
         {{form.as_p}}
         <input type="submit" value="Sign Up">
     </form>

@@ -30,7 +30,8 @@ class User(AbstractUser):
         return self.username
 
     def get_absolute_url(self):
-        return reverse('user_details', kwargs={'id': self.id})
+        return reverse("user_details", kwargs={"id": self.id})
+
 
 class Otp(Base):
     email = models.EmailField(

@@ -1,8 +1,12 @@
-from django.test import TestCase
-from users.models import *
 from http import HTTPStatus
+
+from django.test import TestCase
+from django.contrib.auth.forms import UserCreationForm
+
 from model_bakery import baker
 
+from users.models import *
+from users.forms import * 
 
 class HomePageTestCase(TestCase):
     def setUp(self) -> None:
@@ -39,10 +43,25 @@ class DetailsPageTest(TestCase):
 
 class UserCreationPageTest(TestCase):
     def setUp(self) -> None:
-        return super().setUp()
+        self.form_class = UserRegistrationForm
     
     def test_creation_page_exists(self):
         response = self.client.get(reverse("signup_page"))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed('users/signup.html')
         self.assertContains(response, "Create your Account")
+
+    def test_signup_form_works_correctly(self):
+        self.assertTrue(issubclass(UserRegistrationForm, UserCreationForm))
+        self.assertTrue('email' in self.form_class.Meta.fields)
+        self.assertTrue('username' in self.form_class.Meta.fields)
+        self.assertTrue('password1' in self.form_class.Meta.fields)
+        self.assertTrue('password2' in self.form_class.Meta.fields)
+        sample_data = {
+            'email': "srijanshah09@gmail.com",
+            'username': "admin",
+            'password1': "Q!w2e3r4",
+            'password2': "Q!w2e3r4"
+        }
+        form = self.form_class(sample_data)
+        self.assertTrue(form.is_valid())

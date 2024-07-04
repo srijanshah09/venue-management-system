@@ -22,6 +22,7 @@ from .utils import (
     get_tokens_for_user,
 )
 
+from .forms import *
 
 # Create your views here.
 class UserAuthView(viewsets.ViewSet):
@@ -223,4 +224,8 @@ def user_details(request, id):
     return render(request, "users/user-details.html", context)
 
 def user_signup(request):
-    return render(request, "users/signup.html")
+    form = UserRegistrationForm()
+    context = {
+        "form": form,
+    }
+    return render(request, "users/signup.html", context)

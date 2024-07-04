@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
 from django.test import TestCase
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 
 from model_bakery import baker
 
@@ -84,9 +84,33 @@ class UserCreationPageTest(TestCase):
 
 class LoginTest(TestCase):
     def setUp(self) -> None:
-        return super().setUp()
+        self.username = "test123"
+        self.email = "test@gmail.com"
+        self.mobile = "9582218879"
+        self.password = "Q!w2e3r4"
+        User.objects.create_user(
+            username=self.username,
+            email=self.email,
+            mobile=self.mobile,
+            password=self.password,
+        )
 
     def test_login_page_exists(self):
         response = self.client.get(reverse("login_page"))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "users/login.html")
+    
+
+    def test_login_page_has_login_form(self):
+        response = self.client.get(reverse("login_page"))
+        form = response.context.get('form')
+
+        self.assertIsInstance(form, AuthenticationForm)
+
+    def test_login_page_logs_user_in(self):
+        user_data = {
+            "username": self.username,
+            "password": self.password,
+        }
+        response = self.client.post(reverse("login_page"), user_data)
+        self.assertRedirects(response, reverse("user_index"))

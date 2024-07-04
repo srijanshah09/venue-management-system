@@ -3,6 +3,8 @@ from rest_framework import viewsets, generics
 from rest_framework import status
 from rest_framework.response import Response
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login, authenticate, logout
 from django.utils.encoding import (
     smart_str,
     force_str,
@@ -244,4 +246,19 @@ def user_signup(request):
 
 
 def user_login(request):
-    return render(request, "users/login.html")
+    form = AuthenticationForm()
+    if request.method == "POST":
+        form = AuthenticationForm(request, request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get("username")
+            password = form.cleaned_data.get("password")
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect(reverse("user_index"))
+            else:
+                print("USER is none")
+    context = {
+        "form": form,
+    }
+    return render(request, "users/login.html", context)

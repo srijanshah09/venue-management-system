@@ -36,7 +36,6 @@ class UserAuthView(viewsets.ViewSet):
     def register(self, request):
         try:
             data = request.data
-            print(data)
             validate, msg = validate_data(data)
             if validate:
                 user = register_user(data)
@@ -263,6 +262,7 @@ def user_login(request):
         "form": form,
     }
     return render(request, "users/login.html", context)
+
 
 @login_required
 def user_logout(request):

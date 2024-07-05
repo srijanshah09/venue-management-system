@@ -127,10 +127,9 @@ class LogoutTest(TestCase):
             mobile=self.mobile,
             password=self.password,
         )
-    
 
     def test_logout_view_logs_out_user(self):
-        self.client.login(username=self.username, password= self.password)
-        self.assertTrue('_auth_user_id' in self.client.session)
+        self.client.login(username=self.username, password=self.password)
+        self.assertTrue("_auth_user_id" in self.client.session)
         response = self.client.get(reverse("logout"))
-        self.assertFalse('_auth_user_id' in self.client.session)
+        self.assertFalse("_auth_user_id" in self.client.session)

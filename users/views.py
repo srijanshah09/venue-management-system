@@ -13,6 +13,7 @@ from django.utils.encoding import (
 )
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import User, Otp
 from .utils import send_reset_password_email
@@ -262,3 +263,8 @@ def user_login(request):
         "form": form,
     }
     return render(request, "users/login.html", context)
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return redirect(reverse("user_index"))

@@ -113,3 +113,24 @@ class LoginTest(TestCase):
         }
         response = self.client.post(reverse("login_page"), user_data)
         self.assertRedirects(response, reverse("user_index"))
+
+
+class LogoutTest(TestCase):
+    def setUp(self) -> None:
+        self.username = "test123"
+        self.email = "test@gmail.com"
+        self.mobile = "9582218879"
+        self.password = "Q!w2e3r4"
+        User.objects.create_user(
+            username=self.username,
+            email=self.email,
+            mobile=self.mobile,
+            password=self.password,
+        )
+    
+
+    def test_logout_view_logs_out_user(self):
+        self.client.login(username=self.username, password= self.password)
+        self.assertTrue('_auth_user_id' in self.client.session)
+        response = self.client.get(reverse("logout"))
+        self.assertFalse('_auth_user_id' in self.client.session)

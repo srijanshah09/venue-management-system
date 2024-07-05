@@ -5,6 +5,7 @@ from users.views import (
     user_details,
     user_signup,
     user_login,
+    user_logout,
 )
 
 urlpatterns = [
@@ -12,6 +13,7 @@ urlpatterns = [
     path("user/<int:id>", user_details, name="user_details"),
     path("signup-page/", user_signup, name="signup_page"),
     path("login-page/", user_login, name="login_page"),
+    path("logout/", user_logout, name="logout"),
     path("signup/", UserAuthView.as_view({"post": "register"})),
     path(
         "send-otp/",

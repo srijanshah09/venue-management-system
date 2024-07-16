@@ -1,7 +1,10 @@
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
-from django.shortcuts import get_object_or_404
+
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 from .models import *
 from .serializers import (
@@ -9,7 +12,7 @@ from .serializers import (
     CitySerializer,
     VenueSerializer,
 )
-
+from .forms import VenueCreationForm
 
 # Create your views here.
 class StateViewSet(viewsets.ModelViewSet):
@@ -86,3 +89,19 @@ class VenueViewSet(viewsets.ModelViewSet):
             serializer.update(venue, serializer.data)
             return Response(serializer.data)
         return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+@login_required
+def create_venue(request):
+    form = VenueCreationForm()
+    if request.method == "POST":
+        form = VenueCreationForm(request.POST)
+        if form.is_valid:
+            form_object = form.save(commit=False)
+            form_object.owner = request.user
+            form_object.save()
+            return redirect(reverse("user_index"))
+    context = {
+        "form": form
+    }
+    return render(request, "venues/create_venue.html", context)

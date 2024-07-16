@@ -136,17 +136,14 @@ def get_tokens_for_user(user):
 
 
 def generate_otp(mobile):
-    otp = ""
-    for i in range(4):
-        otp += str(r.randint(1, 9))
+    otp = "".join(str(r.randint(1, 9)) for _ in range(4))
     otp = int(otp)
     if Otp.objects.filter(mobile=mobile).exists():
         instance = Otp.objects.filter(mobile=mobile).last()
         instance.otp = otp
-        instance.save()
     else:
         instance = Otp(mobile=mobile, otp=otp)
-        instance.save()
+    instance.save()
     return otp
 
 

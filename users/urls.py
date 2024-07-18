@@ -11,10 +11,9 @@ from users.views import (
 )
 
 urlpatterns = [
-    path("", index, name="user_index"),
+    path("", user_login, name="login_page"),
     path("user/<int:id>", user_details, name="user_details"),
     path("signup-page/", user_signup, name="signup_page"),
-    path("login-page/", user_login, name="login_page"),
     path("logout/", user_logout, name="logout"),
     path("password_reset/", auth_views.PasswordResetView.as_view(template_name="users/password_reset.html"), name="password_reset"),
     path("password_reset_done/", auth_views.PasswordResetDoneView.as_view(template_name="users/password_reset_done.html"), name="password_reset_done"),

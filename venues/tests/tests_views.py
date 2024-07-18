@@ -15,7 +15,7 @@ from users.models import User
 class DashboardOverviewTestCase(TestCase):
 
     def setUp(self) -> None:
-        self.url= reverse('dashboard_overview')
+        self.url= reverse('venues:dashboard_overview')
     
     def test_homepage_returns_correct_response(self):
         response = self.client.get(self.url)

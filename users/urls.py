@@ -8,6 +8,7 @@ from users.views import (
     user_login,
     user_logout,
 )
+app_name= "users"
 
 urlpatterns = [
     path("", user_login, name="login_page"),

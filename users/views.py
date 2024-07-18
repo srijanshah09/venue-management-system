@@ -228,7 +228,7 @@ def user_signup(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect(reverse("login_page"))
+            return redirect(reverse("users:login_page"))
         else:
             context = {
                 "form": form,
@@ -247,7 +247,7 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(reverse("dashboard_overview"))
+                return redirect(reverse("venues:dashboard_overview"))
             else:
                 print("USER is none")
     context = {
@@ -259,6 +259,6 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect(reverse("login_page"))
+    return redirect(reverse("users:login_page"))
 
 

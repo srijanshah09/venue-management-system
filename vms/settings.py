@@ -163,4 +163,4 @@ EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 
 
 LOGIN_URL = ""
-LOGIN_REDIRECT_URL = "dashboard/"
+LOGIN_REDIRECT_URL = "dashboard/overview/"

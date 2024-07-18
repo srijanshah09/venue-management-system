@@ -1,10 +1,7 @@
 {% extends 'base_dashboard.html' %}
 {% block pagetitle %}
-    Home Page
+    Dashboard Overview
 {% endblock%}
 {% block content %}
     <h1> welcome</h1>
-    {% for user in users %}
-    <h5><a href="{% url 'user_details' user.id %}">{{user}}<a></h5>
-    {% endfor %}
 {% endblock %}

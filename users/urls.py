@@ -3,7 +3,6 @@ from django.contrib.auth import views as auth_views
 
 from users.views import (
     UserAuthView,
-    index,
     user_details,
     user_signup,
     user_login,

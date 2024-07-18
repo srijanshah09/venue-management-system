@@ -9,22 +9,6 @@ from users.models import *
 from users.forms import *
 
 
-class HomePageTestCase(TestCase):
-    def setUp(self) -> None:
-        self.user1 = baker.make(User)
-        self.user2 = baker.make(User)
-
-    def test_homepage_returns_correct_response(self):
-        response = self.client.get("/")
-        self.assertTemplateUsed(response, "users/index.html")
-        self.assertEqual(response.status_code, HTTPStatus.OK)
-
-    def test_homepage_returns_list_users(self):
-        response = self.client.get("/")
-        self.assertContains(response, self.user1.username)
-        self.assertContains(response, self.user2.username)
-
-
 class DetailsPageTest(TestCase):
     def setUp(self) -> None:
         self.user = baker.make(User)
@@ -112,7 +96,7 @@ class LoginTest(TestCase):
             "password": self.password,
         }
         response = self.client.post(reverse("login_page"), user_data)
-        self.assertRedirects(response, reverse("user_index"))
+        self.assertRedirects(response, reverse("dashboard_overview"))
 
 
 class LogoutTest(TestCase):

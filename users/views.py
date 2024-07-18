@@ -211,14 +211,6 @@ class UserAuthView(viewsets.ViewSet):
             )
 
 
-def index(request):
-    users = User.objects.all()
-    context = {
-        "users": users,
-    }
-    return render(request, "users/index.html", context)
-
-
 def user_details(request, id):
     user = get_object_or_404(User, id=id)
     context = {
@@ -255,7 +247,7 @@ def user_login(request):
             user = authenticate(username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect(reverse("user_index"))
+                return redirect(reverse("dashboard_overview"))
             else:
                 print("USER is none")
     context = {
@@ -267,6 +259,6 @@ def user_login(request):
 @login_required
 def user_logout(request):
     logout(request)
-    return redirect(reverse("user_index"))
+    return redirect(reverse("login_page"))
 
 

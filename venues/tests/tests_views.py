@@ -11,6 +11,23 @@ from venues.forms import VenueCreationForm
 from venues.models import *
 from users.models import User
 
+
+class DashboardOverviewTestCase(TestCase):
+
+    def setUp(self) -> None:
+        self.url= reverse('dashboard_overview')
+    
+    def test_homepage_returns_correct_response(self):
+        response = self.client.get(self.url)
+        self.assertTemplateUsed(response, "venues/index.html")
+        self.assertEqual(response.status_code, HTTPStatus.OK)
+
+    def test_homepage_returns_list_users(self):
+        response = self.client.get("/")
+        self.assertContains(response, self.user1.username)
+        self.assertContains(response, self.user2.username)
+
+
 class VenueCreationTest(TestCase):
 
     def setUp(self) -> None:

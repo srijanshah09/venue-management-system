@@ -90,6 +90,9 @@ class VenueViewSet(viewsets.ModelViewSet):
             return Response(serializer.data)
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
+@login_required
+def dashboard_overview(request):
+    return render(request, "venues/overview.html")
 
 @login_required
 def create_venue(request):
@@ -100,7 +103,7 @@ def create_venue(request):
             form_object = form.save(commit=False)
             form_object.owner = request.user
             form_object.save()
-            return redirect(reverse("user_index"))
+            return redirect(reverse("dashboard_overview"))
     context = {
         "form": form
     }

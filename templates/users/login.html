@@ -25,11 +25,11 @@
                                         <div class="form-group">
                                             <input type="text" class="form-control form-control-user"
                                                 id="exampleInputUsername" aria-describedby="usernameHelp"
-                                                placeholder="Enter Username..." name="username">
+                                                placeholder="Enter Username..." name="username" required>
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
-                                                id="exampleInputPassword" placeholder="Password" name="password">
+                                                id="exampleInputPassword" placeholder="Password" name="password" required>
                                         </div>
                                         <div class="form-group">
                                             <div class="custom-control custom-checkbox small">
@@ -39,21 +39,13 @@
                                             </div>
                                         </div>
                                         <input class="btn btn-primary btn-user btn-block" type="submit" value="Login">
-                                            Login
-                                        <hr>
-                                        <a href="index.html" class="btn btn-google btn-user btn-block">
-                                            <i class="fab fa-google fa-fw"></i> Login with Google
-                                        </a>
-                                        <a href="index.html" class="btn btn-facebook btn-user btn-block">
-                                            <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                                        </a>
                                     </form>
                                     <hr>
                                     <div class="text-center">
-                                        <a class="small" href="forgot-password.html">Forgot Password?</a>
+                                        <a class="small" href="{% url 'password_reset' %}">Forgot Password?</a>
                                     </div>
                                     <div class="text-center">
-                                        <a class="small" href="register.html">Create an Account!</a>
+                                        <a class="small" href="{% url 'signup_page' %}">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>
@@ -64,6 +56,5 @@
             </div>
 
         </div>
-    <a href="{% url 'password_reset' %}">Reset Password</a>
 {% endblock content %}
     

@@ -5,6 +5,7 @@ from .views import (
     StateViewSet,
     CityViewSet,
     VenueViewSet,
+    dashboard_overview,
     create_venue,
 )
 
@@ -15,6 +16,7 @@ router.register(r"venue", VenueViewSet, basename="venue")
 
 
 urlpatterns = [
+   path("", dashboard_overview, name="dashboard_overview"),
    path("create-venue/", create_venue, name="create_venue"),
-] 
+]
 urlpatterns += router.urls

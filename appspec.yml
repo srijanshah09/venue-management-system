@@ -3,6 +3,7 @@ os: linux
 files: 
   - source: /
     destination: /home/ubuntu/venue-management-system
+file_exists_behavior: RETAIN
 permissions:
   - object: /home/ubuntu/venue-management-system
     owner: ubuntu

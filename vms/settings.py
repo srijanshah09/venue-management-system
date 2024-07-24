@@ -86,13 +86,18 @@ WSGI_APPLICATION = 'vms.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': env("DATABASE_NAME"),
-        'USER': env("DATABASE_USER"),
-        'PASSWORD': env("DATABASE_PASSWORD"),
-        'HOST': env("DATABASE_HOST"),
-        'PORT': env("DATABASE_PORT"),
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'mydatabase', # This is where you put the name of the db file. 
+                 # If one doesn't exist, it will be created at migration time.
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'NAME': env("DATABASE_NAME"),
+    #     'USER': env("DATABASE_USER"),
+    #     'PASSWORD': env("DATABASE_PASSWORD"),
+    #     'HOST': env("DATABASE_HOST"),
+    #     'PORT': env("DATABASE_PORT"),
+    # }
 }
 
 

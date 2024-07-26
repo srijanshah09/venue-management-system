@@ -31,7 +31,7 @@ class UserCreationPageTest(TestCase):
         self.form_class = UserRegistrationForm
 
     def test_creation_page_exists(self):
-        response = self.client.get(reverse("signup_page"))
+        response = self.client.get(reverse("users:signup_page"))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed("users/signup.html")
         self.assertContains(response, "Create your Account")
@@ -80,12 +80,12 @@ class LoginTest(TestCase):
         )
 
     def test_login_page_exists(self):
-        response = self.client.get(reverse("login_page"))
+        response = self.client.get(reverse("users:login_page"))
         self.assertEqual(response.status_code, HTTPStatus.OK)
         self.assertTemplateUsed(response, "users/login.html")
 
     def test_login_page_has_login_form(self):
-        response = self.client.get(reverse("login_page"))
+        response = self.client.get(reverse("users:login_page"))
         form = response.context.get("form")
 
         self.assertIsInstance(form, AuthenticationForm)
@@ -95,8 +95,8 @@ class LoginTest(TestCase):
             "username": self.username,
             "password": self.password,
         }
-        response = self.client.post(reverse("login_page"), user_data)
-        self.assertRedirects(response, reverse("dashboard_overview"))
+        response = self.client.post(reverse("users:login_page"), user_data)
+        self.assertRedirects(response, reverse("venues:dashboard_overview"))
 
 
 class LogoutTest(TestCase):
@@ -115,5 +115,5 @@ class LogoutTest(TestCase):
     def test_logout_view_logs_out_user(self):
         self.client.login(username=self.username, password=self.password)
         self.assertTrue("_auth_user_id" in self.client.session)
-        response = self.client.get(reverse("logout"))
+        response = self.client.get(reverse("users:logout"))
         self.assertFalse("_auth_user_id" in self.client.session)

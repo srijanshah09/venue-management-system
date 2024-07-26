@@ -103,7 +103,7 @@ def create_venue(request):
             form_object = form.save(commit=False)
             form_object.owner = request.user
             form_object.save()
-            return redirect(reverse("dashboard_overview"))
+            return redirect(reverse("venues:dashboard_overview"))
     context = {
         "form": form
     }
